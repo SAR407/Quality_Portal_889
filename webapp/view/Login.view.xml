@@ -4,23 +4,31 @@
     xmlns:html="http://www.w3.org/1999/xhtml">
     <Page showHeader="false" class="sapUiContentPadding">
         <content>
-            <FlexBox alignItems="Center" justifyContent="Center" height="100%" direction="Column">
-                <VBox class="antiGravityCard sapUiLargeMargin" width="400px" alignItems="Center">
-                    <html:div style="height: 20px"/>
-                    <Title text="QUALITY PORTAL" level="H1" titleStyle="H1" class="glowText sapUiMediumMarginBottom"/>
+            <FlexBox alignItems="Center" justifyContent="Center" height="100%" direction="Column" class="fullHeightBox">
+                <!-- Outer Container with Neon Border -->
+                <VBox class="antiGravityCard sapUiLargeMargin" width="450px" alignItems="Center">
+                    <html:div style="height: 40px"/>
                     
-                    <VBox width="90%" class="sapUiSmallMargin">
-                        <Label text="Username" class="glowText"/>
-                        <Input id="usernameInput" placeholder="Enter Username" class="glassInput"/>
+                    <!-- Title with stronger glow -->
+                    <Title text="QUALITY PORTAL" level="H1" titleStyle="H1" class="glowText sapUiLargeMarginBottom"/>
+                    
+                    <!-- Username Section -->
+                    <VBox width="85%" class="sapUiMediumMarginBottom">
+                        <Label text="USERNAME" class="glowText sapUiTinyMarginBottom" design="Bold"/>
+                        <Input id="usernameInput" placeholder="Enter Username" class="glassInput" height="50px"/>
                     </VBox>
                     
-                    <VBox width="90%" class="sapUiSmallMargin">
-                        <Label text="Password" class="glowText"/>
-                        <Input id="passwordInput" placeholder="Enter Password" type="Password" class="glassInput"/>
+                    <!-- Password Section -->
+                    <VBox width="85%" class="sapUiMediumMarginBottom">
+                        <Label text="PASSWORD" class="glowText sapUiTinyMarginBottom" design="Bold"/>
+                        <Input id="passwordInput" placeholder="Enter Password" type="Password" class="glassInput" height="50px"/>
                     </VBox>
 
-                    <Button text="LOGIN" press=".onLogin" width="200px" class="neonButton sapUiMediumMarginTopBottom"/>
-                    <html:div style="height: 20px"/>
+                    <!-- Login Button -->
+                    <Button text="ACCESS PORTAL" press=".onLogin" width="250px" 
+                            class="neonButton sapUiMediumMarginTopBottom"/>
+                            
+                    <html:div style="height: 40px"/>
                 </VBox>
             </FlexBox>
         </content>

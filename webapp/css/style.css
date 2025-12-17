@@ -15,55 +15,50 @@ body {
     margin: 0;
 }
 
-/* Background Animation Effect */
-.sapMApp {
-    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+/* Background Animation Effect - Force Dark */
+body,
+.sapMApp,
+.sapMPage,
+.sapMPageScroll {
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%) !important;
+    background-color: #000000 !important;
 }
 
-/* Glassmorphism Card */
+/* Glassmorphism Card - Make it Darker */
 .antiGravityCard {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.antiGravityCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px var(--neon-blue);
-}
-
-/* Neon Border */
-.neonBorder {
+    background: rgba(20, 20, 30, 0.7) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--neon-blue);
-    box-shadow: 0 0 5px var(--neon-blue), inset 0 0 5px var(--neon-blue);
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
 }
 
-/* Floating Animation */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
-
-.floatingTile {
-    animation: float 6s ease-in-out infinite;
-}
-
-/* Custom Input Styles */
+/* Custom Input Styles - Ensure Visibility */
 .glassInput .sapMInputBaseInner {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: #fff !important;
-    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid var(--neon-blue) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    text-shadow: 0 0 2px var(--neon-blue);
 }
 
 .glassInput .sapMInputBaseInner:focus {
-    border-color: var(--neon-blue) !important;
-    box-shadow: 0 0 10px var(--neon-blue);
+    background: rgba(0, 0, 0, 0.8) !important;
+    box-shadow: 0 0 15px var(--neon-blue) !important;
+}
+
+/* Input Placeholder Color */
+.glassInput .sapMInputBaseInner::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-style: italic;
+}
+
+/* Force Text Color globally in our container */
+.antiGravityCard .sapMText,
+.antiGravityCard .sapMLabel {
+    color: #ffffff !important;
+    text-shadow: 0 0 5px var(--neon-blue);
 }
 
 /* Neon Button */

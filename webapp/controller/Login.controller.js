@@ -13,30 +13,39 @@ sap.ui.define([
             var sUsername = this.byId("usernameInput").getValue();
             var sPassword = this.byId("passwordInput").getValue();
 
+            // Trim inputs to avoid whitespace issues
+            sUsername = sUsername.trim();
+            sPassword = sPassword.trim();
+
             if (!sUsername || !sPassword) {
                 MessageToast.show("Please enter both username and password.");
                 return;
             }
 
             var oModel = this.getOwnerComponent().getModel("loginModel");
-            // Busy Indicator
             sap.ui.core.BusyIndicator.show(0);
 
-            // Read path: /ZCDS_QP_LOGIN_889(Username='...')
             var sPath = "/ZCDS_QP_LOGIN_889('" + sUsername + "')";
 
             oModel.read(sPath, {
                 success: function (oData) {
                     sap.ui.core.BusyIndicator.hide();
                     if (oData) {
-                        // Validate Password (as per requirement to use returned fields)
-                        if (oData.Password === sPassword) {
-                            MessageToast.show("Login Successful!");
-                            // Navigate to Dashboard
-                            var oRouter = UIComponent.getRouterFor(this);
-                            oRouter.navTo("RouteDashboard");
-                        } else {
-                            MessageToast.show("Invalid Password.");
+                        try {
+                            // Check for password match (trimming backend data just in case)
+                            var sBackendPass = (oData.Password || "").trim();
+
+                            if (sBackendPass === sPassword) {
+                                MessageToast.show("Login Successful!");
+                                var oRouter = UIComponent.getRouterFor(this);
+                                oRouter.navTo("RouteDashboard");
+                            } else {
+                                console.error("Login Mismatch. Entered: " + sPassword + ", Backend: " + sBackendPass);
+                                MessageToast.show("Invalid Password.");
+                            }
+                        } catch (err) {
+                            console.error("Login logic error", err);
+                            MessageToast.show("An error occurred during verification.");
                         }
                     } else {
                         MessageToast.show("User not found.");
