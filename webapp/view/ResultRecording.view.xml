@@ -1,0 +1,60 @@
+<mvc:View controllerName="qualityportal.controller.ResultRecording"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page showHeader="true" title="RESULT RECORDING" class="sapUiContentPadding" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <VBox alignItems="Center" justifyContent="Center" class="sapUiMediumMargin">
+                <VBox class="antiGravityCard sapUiMediumMargin" width="90%" maxWidth="800px">
+                    <Toolbar class="glassList">
+                        <Title text="Inspection Lot: {inspectionModel>InspectionLot}" class="glowText sapUiSmallMarginBegin"/>
+                        <ToolbarSpacer/>
+                        <ObjectStatus text="{path: 'inspectionModel>UsageDecisionCode', formatter: '.formatter.statusText'}" 
+                                      state="{path: 'inspectionModel>UsageDecisionCode', formatter: '.formatter.statusState'}"
+                                      inverted="true" class="sapUiSmallMarginEnd"/>
+                    </Toolbar>
+                    
+                    <SimpleForm layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" 
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" 
+                                columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false"
+                                class="glassList">
+                        <core:Title text="General Information" class="glowText"/>
+                        <Label text="Material" class="glowText"/>
+                        <Text text="{inspectionModel>MaterialNumber} - {inspectionModel>MaterialDesc}" class="glowText"/>
+                        
+                        <Label text="Plant" class="glowText"/>
+                        <Text text="{inspectionModel>Plant}" class="glowText"/>
+                        
+                        <Label text="Total Lot Quantity" class="glowText"/>
+                        <ObjectNumber number="{inspectionModel>LotQuantity}" unit="{inspectionModel>UoM}" state="Information"/>
+                        
+                        <core:Title text="Stock Postings" class="glowText"/>
+                        
+                        <Label text="Unrestricted Stock" class="glowText"/>
+                        <Input value="{inspectionModel>UnrestrictedQty}" type="Number" placeholder="0" 
+                               editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
+                        
+                        <Label text="Blocked Stock" class="glowText"/>
+                        <Input value="{inspectionModel>BlockedQty}" type="Number" placeholder="0" 
+                               editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
+                        
+                        <Label text="Production Stock" class="glowText"/>
+                        <Input value="{inspectionModel>ProductionQty}" type="Number" placeholder="0" 
+                               editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
+                        
+                        <Label text="Total Inspected" class="glowText"/>
+                        <ObjectNumber number="{viewModel>/totalInspected}" unit="{inspectionModel>UoM}" 
+                                      state="{= ${viewModel>/totalInspected} === ${inspectionModel>LotQuantity} ? 'Success' : 'Warning'}"/>
+                    </SimpleForm>
+
+                    <HBox justifyContent="End" class="sapUiMediumMargin">
+                        <Button text="Save Results" press=".onSave" type="Emphasized" enabled="{viewModel>/editable}" 
+                                class="neonButton sapUiSmallMarginEnd"/>
+                        <Button text="Proceed to Usage Decision" press=".onNavToUD" 
+                                class="neonButton" visible="{= ${viewModel>/totalInspected} === ${inspectionModel>LotQuantity} }"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

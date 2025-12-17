@@ -16,21 +16,17 @@
       "toolsId": "fa7e0303-257d-472d-99dc-716563aa4893"
     },
     "dataSources": {
-      "ZCDS_QP_LOGIN_889_CDS_VAN": {
-        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCDS_QP_LOGIN_889_CDS_VAN',Version='0001')/$value/",
-        "type": "ODataAnnotation",
-        "settings": {
-          "localUri": "localService/mainService/ZCDS_QP_LOGIN_889_CDS_VAN.xml"
-        }
-      },
-      "mainService": {
+      "loginService": {
         "uri": "/sap/opu/odata/sap/ZCDS_QP_LOGIN_889_CDS/",
         "type": "OData",
         "settings": {
-          "annotations": [
-            "ZCDS_QP_LOGIN_889_CDS_VAN"
-          ],
-          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "inspectionService": {
+        "uri": "/sap/opu/odata/sap/ZCDS_QP_INSPECTION_889_CDS/",
+        "type": "OData",
+        "settings": {
           "odataVersion": "2.0"
         }
       }
@@ -72,10 +68,13 @@
           "bundleName": "qualityportal.i18n.i18n"
         }
       },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {}
+      "loginModel": {
+        "dataSource": "loginService",
+        "preload": true
+      },
+      "inspectionModel": {
+        "dataSource": "inspectionService",
+        "preload": true
       }
     },
     "resources": {
@@ -88,28 +87,60 @@
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "qualityportal.view",
         "controlAggregation": "pages",
         "controlId": "app",
-        "transition": "slide",
-        "type": "View",
-        "viewType": "XML",
-        "path": "qualityportal.view",
-        "async": true,
-        "viewPath": "qualityportal.view"
+        "clearControlAggregation": false
       },
       "routes": [
         {
-          "name": "RouteView1",
-          "pattern": ":?query:",
-          "target": [
-            "TargetView1"
-          ]
+          "name": "RouteLogin",
+          "pattern": "",
+          "target": "TargetLogin"
+        },
+        {
+          "name": "RouteDashboard",
+          "pattern": "dashboard",
+          "target": "TargetDashboard"
+        },
+        {
+          "name": "RouteInspectionLot",
+          "pattern": "inspection-lot",
+          "target": "TargetInspectionLot"
+        },
+        {
+          "name": "RouteResultRecording",
+          "pattern": "result-recording/{InspectionLot}",
+          "target": "TargetResultRecording"
+        },
+        {
+          "name": "RouteUsageDecision",
+          "pattern": "usage-decision/{InspectionLot}",
+          "target": "TargetUsageDecision"
         }
       ],
       "targets": {
-        "TargetView1": {
-          "id": "View1",
-          "name": "View1"
+        "TargetLogin": {
+          "viewId": "Login",
+          "viewName": "Login"
+        },
+        "TargetDashboard": {
+          "viewId": "Dashboard",
+          "viewName": "Dashboard"
+        },
+        "TargetInspectionLot": {
+          "viewId": "InspectionLot",
+          "viewName": "InspectionLot"
+        },
+        "TargetResultRecording": {
+          "viewId": "ResultRecording",
+          "viewName": "ResultRecording"
+        },
+        "TargetUsageDecision": {
+          "viewId": "UsageDecision",
+          "viewName": "UsageDecision"
         }
       }
     },

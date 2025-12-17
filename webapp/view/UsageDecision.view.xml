@@ -1,0 +1,40 @@
+<mvc:View controllerName="qualityportal.controller.UsageDecision"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page showHeader="true" title="USAGE DECISION" class="sapUiContentPadding" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <VBox alignItems="Center" justifyContent="Center" class="sapUiMediumMargin">
+                <VBox class="antiGravityCard sapUiMediumMargin" width="90%" maxWidth="600px" alignItems="Center">
+                    <Title text="Decision for Lot {inspectionModel>InspectionLot}" level="H2" class="glowText sapUiMediumMarginTop"/>
+                    
+                    <VBox width="80%" class="sapUiMediumMargin">
+                        <Label text="Material" class="glowText"/>
+                        <Text text="{inspectionModel>MaterialNumber} - {inspectionModel>MaterialDesc}" class="glowText"/>
+                        
+                        <Label text="Plant" class="glowText"/>
+                        <Text text="{inspectionModel>Plant}" class="glowText"/>
+                        
+                        <Label text="Lot Quantity" class="glowText"/>
+                        <ObjectNumber number="{inspectionModel>LotQuantity}" unit="{inspectionModel>UoM}" state="Information"/>
+                        
+                        <Label text="Total Recorded Quantity" class="glowText"/>
+                        <ObjectNumber number="{viewModel>/totalRecorded}" unit="{inspectionModel>UoM}" 
+                                      state="{= ${viewModel>/isBalanced} ? 'Success' : 'Error'}"/>
+                        
+                        <MessageStrip text="Total Recorded Quantity must match Lot Quantity to take a decision." 
+                                      type="Error" visible="{= !${viewModel>/isBalanced} }" 
+                                      class="sapUiSmallMarginTopBottom"/>
+                    </VBox>
+
+                    <HBox class="sapUiMediumMarginBottom">
+                        <Button text="APPROVE" press=".onApprove" type="Accept" enabled="{viewModel>/isBalanced}" 
+                                icon="sap-icon://accept" class="neonButton sapUiSmallMarginEnd"/>
+                        <Button text="REJECT" press=".onReject" type="Reject" enabled="{viewModel>/isBalanced}" 
+                                icon="sap-icon://decline" class="neonButton"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

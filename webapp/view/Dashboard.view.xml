@@ -1,0 +1,38 @@
+<mvc:View controllerName="qualityportal.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page showHeader="false" class="sapUiContentPadding">
+        <content>
+            <FlexBox alignItems="Center" justifyContent="Center" height="100%" direction="Column">
+                <Title text="QUALITY DASHBOARD" level="H1" titleStyle="H1" class="glowText sapUiLargeMarginBottom"/>
+                
+                <HBox alignItems="Center" justifyContent="Center" wrap="Wrap">
+                    <!-- Inspection Lot Tile -->
+                    <VBox class="antiGravityCard floatingTile sapUiMediumMargin" width="250px" height="250px" alignItems="Center" justifyContent="Center">
+                        <core:Icon src="sap-icon://inspection" size="4rem" color="#00f3ff" class="sapUiSmallMarginBottom"/>
+                        <Title text="Inspection Lots" level="H3" class="glowText"/>
+                        <Text text="View All Lots" class="sapUiSmallMarginTop" wrapper="true" textAlign="Center"/>
+                        <Button icon="sap-icon://navigation-right-arrow" press=".onPressInspectionLots" class="neonButton sapUiMediumMarginTop"/>
+                    </VBox>
+
+                    <!-- Result Recording Tile -->
+                    <VBox class="antiGravityCard floatingTile sapUiMediumMargin" width="250px" height="250px" alignItems="Center" justifyContent="Center">
+                        <core:Icon src="sap-icon://lab" size="4rem" color="#bc13fe" class="sapUiSmallMarginBottom"/>
+                        <Title text="Result Recording" level="H3" class="glowText"/>
+                        <Text text="Record Findings" class="sapUiSmallMarginTop" wrapper="true" textAlign="Center"/>
+                        <Button icon="sap-icon://navigation-right-arrow" press=".onPressResultRecording" class="neonButton sapUiMediumMarginTop"/>
+                    </VBox>
+
+                    <!-- Usage Decision Tile -->
+                    <VBox class="antiGravityCard floatingTile sapUiMediumMargin" width="250px" height="250px" alignItems="Center" justifyContent="Center">
+                        <core:Icon src="sap-icon://accept" size="4rem" color="#00f3ff" class="sapUiSmallMarginBottom"/>
+                        <Title text="Usage Decision" level="H3" class="glowText"/>
+                        <Text text="Approve / Reject" class="sapUiSmallMarginTop" wrapper="true" textAlign="Center"/>
+                        <Button icon="sap-icon://navigation-right-arrow" press=".onPressUsageDecision" class="neonButton sapUiMediumMarginTop"/>
+                    </VBox>
+                </HBox>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

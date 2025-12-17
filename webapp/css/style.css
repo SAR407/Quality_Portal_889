@@ -1,1 +1,111 @@
-/* Enter your custom styles here */
+/* Anti-Gravity Future Theme */
+:root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #bc13fe;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --dark-bg: #0a0a12;
+    --text-color: #ffffff;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* Background Animation Effect */
+.sapMApp {
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+}
+
+/* Glassmorphism Card */
+.antiGravityCard {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.antiGravityCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* Neon Border */
+.neonBorder {
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 5px var(--neon-blue), inset 0 0 5px var(--neon-blue);
+}
+
+/* Floating Animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floatingTile {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Input Styles */
+.glassInput .sapMInputBaseInner {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 8px;
+}
+
+.glassInput .sapMInputBaseInner:focus {
+    border-color: var(--neon-blue) !important;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Neon Button */
+.neonButton .sapMBtnInner {
+    background: transparent;
+    border: 1px solid var(--neon-purple);
+    color: var(--neon-purple);
+    text-shadow: 0 0 5px var(--neon-purple);
+    box-shadow: 0 0 5px var(--neon-purple);
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.neonButton:hover .sapMBtnInner {
+    background: var(--neon-purple);
+    color: #fff;
+    box-shadow: 0 0 20px var(--neon-purple);
+}
+
+/* Title Glow */
+.glowText {
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+}
+
+/* List Item Styling */
+.glassList .sapMListTbl {
+    background: transparent !important;
+}
+
+.glassList .sapMListTblCell {
+    color: #fff !important;
+}
+
+.glassList .sapMLIB {
+    background: rgba(255, 255, 255, 0.05) !important;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    border-bottom: none !important;
+}
+
+.glassList .sapMLIB:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
