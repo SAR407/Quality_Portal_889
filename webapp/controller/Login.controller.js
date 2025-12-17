@@ -33,7 +33,7 @@ sap.ui.define([
                     if (oData) {
                         try {
                             // Check for password match (trimming backend data just in case)
-                            var sBackendPass = (oData.Password || "").trim();
+                            var sBackendPass = (oData.password || "").trim();
 
                             if (sBackendPass === sPassword) {
                                 MessageToast.show("Login Successful!");
