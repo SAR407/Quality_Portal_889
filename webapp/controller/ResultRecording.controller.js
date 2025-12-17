@@ -57,22 +57,40 @@ sap.ui.define([
         },
 
         onQtyChange: function () {
+            // Read values directly from Controls for immediate UI feedback
+            var sUnrestricted = this.byId("idUnrestrictedQty").getValue();
+            var sBlocked = this.byId("idBlockedQty").getValue();
+            var sProduction = this.byId("idProductionQty").getValue();
+
+            // Calculate Total
+            var u = parseFloat(sUnrestricted) || 0;
+            var b = parseFloat(sBlocked) || 0;
+            var p = parseFloat(sProduction) || 0;
+            var total = u + b + p;
+
+            // Update ViewModel for visuals
+            var oViewModel = this.getView().getModel("viewModel");
+            oViewModel.setProperty("/totalInspected", total);
+
+            // Fetch Lot Quantity from Context
             var oContext = this.getView().getBindingContext("inspectionModel");
             if (oContext) {
-                var oEntity = oContext.getObject();
+                var lotQty = parseFloat(oContext.getProperty("LotQuantity")) || 0;
+                var bBalanced = (Math.abs(total - lotQty) < 0.01);
+                oViewModel.setProperty("/isBalanced", bBalanced);
 
-                // We must read the current values from the INPUTS because the model might not update until focus lost?
-                // Actually with two-way binding and liveChange, the model should be updating. 
-                // However, let's play safe and check if we need to force update bindings or just read properties.
-                // In UI5 OData V2, formatting/parsing happens.
-
-                // Trigger calculation based on current model state which should be updated by liveChange bindings
-                this._calculateTotal(oEntity);
+                // CRITICAL: Explicitly update the OData Model properties to ensure 'hasPendingChanges' is true
+                // This handles the case where TwoWay binding doesn't update on liveChange
+                var oModel = this.getView().getModel("inspectionModel");
+                oModel.setProperty("UnrestrictedQty", sUnrestricted, oContext);
+                oModel.setProperty("BlockedQty", sBlocked, oContext);
+                oModel.setProperty("ProductionQty", sProduction, oContext);
             }
         },
 
+        // Legacy helper, integrated into onQtyChange for better live control
         _calculateTotal: function (oEntity) {
-            // FRS: Unrestricted + Block + Production
+            // Only called on Init/Route match
             var u = parseFloat(oEntity.UnrestrictedQty) || 0;
             var b = parseFloat(oEntity.BlockedQty) || 0;
             var p = parseFloat(oEntity.ProductionQty) || 0;
@@ -82,11 +100,7 @@ sap.ui.define([
 
             var oViewModel = this.getView().getModel("viewModel");
             oViewModel.setProperty("/totalInspected", total);
-
-            // FRS: Allowed ONLY if Sum == LotQuantity
-            // Using a small epsilon for float comparison safety if needed, but integers usually fine.
-            var bBalanced = (Math.abs(total - lotQty) < 0.01);
-            oViewModel.setProperty("/isBalanced", bBalanced);
+            oViewModel.setProperty("/isBalanced", (Math.abs(total - lotQty) < 0.01));
         },
 
         onSave: function () {

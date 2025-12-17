@@ -5,7 +5,10 @@
     <Page showHeader="false" class="sapUiContentPadding">
         <content>
             <FlexBox alignItems="Center" justifyContent="Center" height="100%" direction="Column">
-                <Title text="QUALITY DASHBOARD" level="H1" titleStyle="H1" class="glowText sapUiLargeMarginBottom"/>
+                <HBox class="sapUiMediumMarginBottom" justifyContent="SpaceBetween" width="90%">
+                    <Title text="QUALITY DASHBOARD" level="H1" titleStyle="H1" class="glowText"/>
+                    <Button icon="sap-icon://log" text="LOGOUT" press=".onLogout" type="Transparent" class="neonButton"/>
+                </HBox>
                 
                 <HBox alignItems="Center" justifyContent="Center" wrap="Wrap">
                     <!-- Inspection Lot Tile -->
