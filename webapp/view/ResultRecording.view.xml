@@ -44,14 +44,28 @@
                         
                         <Label text="Total Inspected" class="glowText"/>
                         <ObjectNumber number="{viewModel>/totalInspected}" unit="{inspectionModel>UoM}" 
-                                      state="{= ${viewModel>/totalInspected} === ${inspectionModel>LotQuantity} ? 'Success' : 'Warning'}"/>
+                                      state="{= ${viewModel>/isBalanced} ? 'Success' : 'Error'}"/>
                     </SimpleForm>
 
+                    <!-- Feedback Message -->
+                    <MessageStrip 
+                        text="Total Inspected ({viewModel>/totalInspected}) must match Lot Quantity ({inspectionModel>LotQuantity}) to take a decision." 
+                        type="Warning" 
+                        showIcon="true"
+                        visible="{= !${viewModel>/isBalanced} &amp;&amp; ${viewModel>/editable}}" 
+                        class="sapUiMediumMarginBottom"/>
+
                     <HBox justifyContent="End" class="sapUiMediumMargin">
-                        <Button text="Save Results" press=".onSave" type="Emphasized" enabled="{viewModel>/editable}" 
+                        <Button text="Save Incremental Results" press=".onSave" type="Emphasized" 
+                                enabled="{viewModel>/editable}" 
+                                icon="sap-icon://save"
                                 class="neonButton sapUiSmallMarginEnd"/>
-                        <Button text="Proceed to Usage Decision" press=".onNavToUD" 
-                                class="neonButton" visible="{= ${viewModel>/totalInspected} === ${inspectionModel>LotQuantity} }"/>
+                        
+                        <Button text="Finalize Usage Decision" press=".onNavToUD" 
+                                type="Accept"
+                                icon="sap-icon://accept"
+                                class="neonButton" 
+                                enabled="{= ${viewModel>/isBalanced} &amp;&amp; ${viewModel>/editable} }"/>
                     </HBox>
                 </VBox>
             </VBox>
