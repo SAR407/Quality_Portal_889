@@ -1,6 +1,7 @@
 <mvc:View controllerName="qualityportal.controller.ResultRecording"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m" xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
     xmlns:html="http://www.w3.org/1999/xhtml">
     <Page showHeader="true" title="RESULT RECORDING" class="sapUiContentPadding" showNavButton="true" navButtonPress=".onNavBack">
         <content>
@@ -14,7 +15,7 @@
                                       inverted="true" class="sapUiSmallMarginEnd"/>
                     </Toolbar>
                     
-                    <SimpleForm layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" 
+                    <form:SimpleForm layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" 
                                 adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" 
                                 columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false"
                                 class="glassList">
@@ -45,7 +46,7 @@
                         <Label text="Total Inspected" class="glowText"/>
                         <ObjectNumber number="{viewModel>/totalInspected}" unit="{inspectionModel>UoM}" 
                                       state="{= ${viewModel>/isBalanced} ? 'Success' : 'Error'}"/>
-                    </SimpleForm>
+                    </form:SimpleForm>
 
                     <!-- Feedback Message -->
                     <MessageStrip 
