@@ -6,7 +6,7 @@
         <content>
             <VBox alignItems="Center" justifyContent="Center" class="sapUiMediumMargin">
                 <VBox class="antiGravityCard sapUiMediumMargin" width="90%" maxWidth="600px" alignItems="Center">
-                    <Title text="Decision for Lot {inspectionModel>InspectionLot}" level="H2" class="glowText sapUiMediumMarginTop"/>
+                    <Title text="Final Decision for Lot {inspectionModel>InspectionLot}" level="H2" class="glowText sapUiMediumMarginTop"/>
                     
                     <VBox width="80%" class="sapUiMediumMargin">
                         <Label text="Material" class="glowText"/>
@@ -22,15 +22,19 @@
                         <ObjectNumber number="{viewModel>/totalRecorded}" unit="{inspectionModel>UoM}" 
                                       state="{= ${viewModel>/isBalanced} ? 'Success' : 'Error'}"/>
                         
-                        <MessageStrip text="Total Recorded Quantity must match Lot Quantity to take a decision." 
+                        <MessageStrip text="CONFIRMATION: Total quantities matched. Please make a final decision." 
+                                      type="Success" visible="{viewModel>/isBalanced}" 
+                                      class="sapUiSmallMarginTopBottom"/>
+
+                        <MessageStrip text="ERROR: Quantities do not match. You cannot proceed." 
                                       type="Error" visible="{= !${viewModel>/isBalanced} }" 
                                       class="sapUiSmallMarginTopBottom"/>
                     </VBox>
 
                     <HBox class="sapUiMediumMarginBottom">
-                        <Button text="APPROVE" press=".onApprove" type="Accept" enabled="{viewModel>/isBalanced}" 
+                        <Button text="APPROVE LOT" press=".onApprove" type="Accept" enabled="{viewModel>/isBalanced}" 
                                 icon="sap-icon://accept" class="neonButton sapUiSmallMarginEnd"/>
-                        <Button text="REJECT" press=".onReject" type="Reject" enabled="{viewModel>/isBalanced}" 
+                        <Button text="REJECT LOT" press=".onReject" type="Reject" enabled="{viewModel>/isBalanced}" 
                                 icon="sap-icon://decline" class="neonButton"/>
                     </HBox>
                 </VBox>

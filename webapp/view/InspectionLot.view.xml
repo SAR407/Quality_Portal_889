@@ -9,7 +9,7 @@
                     items="{inspectionModel>/ZCDS_QP_INSPECTION_889}" 
                     class="glassList"
                     growing="true" growingThreshold="20"
-                    mode="SingleSelectMaster" itemPress=".onPressLot">
+                    mode="None">
                     
                     <columns>
                         <Column><Text text="Lot #" class="glowText"/></Column>
@@ -20,7 +20,7 @@
                     </columns>
                     
                     <items>
-                        <ColumnListItem type="Active">
+                        <ColumnListItem type="Navigation" press=".onPressLot">
                             <cells>
                                 <ObjectIdentifier title="{inspectionModel>InspectionLot}" text="{inspectionModel>InspectionType}"/>
                                 <ObjectIdentifier title="{inspectionModel>MaterialNumber}" text="{inspectionModel>MaterialDesc}"/>

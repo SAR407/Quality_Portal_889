@@ -27,10 +27,27 @@ sap.ui.define([
         onPressLot: function (oEvent) {
             var oItem = oEvent.getSource();
             var oContext = oItem.getBindingContext("inspectionModel");
-            var sInspectionLot = oContext.getProperty("InspectionLot");
+
+            // Debugging context
+            console.log("Selected Context Object:", oContext.getObject());
+
+            // Try both cases as backend might be different
+            var sInspectionLot = oContext.getProperty("InspectionLot")
+                || oContext.getProperty("inspectionLot")
+                || oContext.getProperty("inspection_lot"); // Just in case
+
+            if (!sInspectionLot) {
+                // If nothing found, try to alert keys of the object to help debug
+                var aKeys = Object.keys(oContext.getObject());
+                console.error("Available keys:", aKeys);
+                sap.m.MessageToast.show("Error: ID not found. Keys: " + aKeys.join(", "));
+                return;
+            }
+
+            // Visual confirmation
+            sap.m.MessageToast.show("Navigating to Lot: " + sInspectionLot);
 
             var oRouter = UIComponent.getRouterFor(this);
-            // Navigate to Result Recording by default when clicking a lot
             oRouter.navTo("RouteResultRecording", {
                 InspectionLot: sInspectionLot
             });

@@ -21,6 +21,7 @@ sap.ui.define([
 
         _onObjectMatched: function (oEvent) {
             var sInternalId = oEvent.getParameter("arguments").InspectionLot;
+            // Handle correct key format logic if needed, assuming backend accepts string
             var sPath = "/ZCDS_QP_INSPECTION_889('" + sInternalId + "')";
 
             this.getView().bindElement({
@@ -48,11 +49,12 @@ sap.ui.define([
 
             this.getView().getModel("viewModel").setProperty("/totalRecorded", total);
 
-            // Precision check might be needed, using simple equality for now
+            // Strict FRS check: Unrestricted + Block + Production = LotQuantity
             if (total === lotQty) {
                 this.getView().getModel("viewModel").setProperty("/isBalanced", true);
             } else {
                 this.getView().getModel("viewModel").setProperty("/isBalanced", false);
+                // If the user somehow navigated here without balance, we should probably warn or lock
             }
         },
 
@@ -68,21 +70,23 @@ sap.ui.define([
             var oModel = this.getView().getModel("inspectionModel");
             var oContext = this.getView().getBindingContext("inspectionModel");
 
-            // Update the local property
+            // FRS: Change decision from PENDING to 'A' or 'R'
             oModel.setProperty("UsageDecisionCode", sCode, oContext);
 
             sap.ui.core.BusyIndicator.show(0);
             oModel.submitChanges({
                 success: function () {
                     sap.ui.core.BusyIndicator.hide();
-                    MessageToast.show("Usage Decision Posted: " + (sCode === 'A' ? 'Approved' : 'Rejected'));
-                    // Nav back to dashboard or list
+                    var sMsg = (sCode === 'A') ? "Inspection Approved." : "Inspection Rejected.";
+                    MessageToast.show(sMsg);
+
+                    // FRS: Navigate back, lot should now be read-only in the list
                     var oRouter = UIComponent.getRouterFor(this);
                     oRouter.navTo("RouteInspectionLot");
                 }.bind(this),
                 error: function (oError) {
                     sap.ui.core.BusyIndicator.hide();
-                    MessageToast.show("Error posting decision.");
+                    MessageToast.show("Error posting decision. Please try again.");
                 }
             });
         },
@@ -95,7 +99,6 @@ sap.ui.define([
                 window.history.go(-1);
             } else {
                 var oRouter = UIComponent.getRouterFor(this);
-                // Return to result recording or list? List is safer.
                 oRouter.navTo("RouteInspectionLot", {}, true);
             }
         }

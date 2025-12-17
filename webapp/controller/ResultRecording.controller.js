@@ -45,12 +45,13 @@ sap.ui.define([
         _updateUIState: function (oEntity) {
             var oViewModel = this.getView().getModel("viewModel");
 
-            // Check if UD is already taken
-            if (oEntity.UsageDecisionCode && oEntity.UsageDecisionCode !== 'PENDING') {
-                oViewModel.setProperty("/editable", false);
-            } else {
-                oViewModel.setProperty("/editable", true);
-            }
+            // FRS: "Pending" means we can edit. Anything else (A, R) is Read-Only.
+            // Note: Backend might return "PENDING" or "Pending", let's be safe.
+            // Also checking if code is empty or null, treat as pending.
+            var sCode = oEntity.UsageDecisionCode;
+            var bIsPending = (!sCode || sCode === 'PENDING');
+
+            oViewModel.setProperty("/editable", bIsPending);
 
             this._calculateTotal(oEntity);
         },
@@ -59,24 +60,33 @@ sap.ui.define([
             var oContext = this.getView().getBindingContext("inspectionModel");
             if (oContext) {
                 var oEntity = oContext.getObject();
-                // Because liveChange updates the model thanks to two-way binding on Inputs? 
-                // Wait, standard Input value binding is two-way.
-                // We just need to trigger recalc.
-                // However, standard Object binding might not auto-reflect pending changes in 'getObject' immediately validly if type issues.
-                // We'll trust the binding updates.
 
-                // Small delay to ensure model update if necessary, or read from inputs directly if needed.
-                // Actually, let's read the properties from the model which should be updated.
+                // We must read the current values from the INPUTS because the model might not update until focus lost?
+                // Actually with two-way binding and liveChange, the model should be updating. 
+                // However, let's play safe and check if we need to force update bindings or just read properties.
+                // In UI5 OData V2, formatting/parsing happens.
+
+                // Trigger calculation based on current model state which should be updated by liveChange bindings
                 this._calculateTotal(oEntity);
             }
         },
 
         _calculateTotal: function (oEntity) {
+            // FRS: Unrestricted + Block + Production
             var u = parseFloat(oEntity.UnrestrictedQty) || 0;
             var b = parseFloat(oEntity.BlockedQty) || 0;
             var p = parseFloat(oEntity.ProductionQty) || 0;
             var total = u + b + p;
-            this.getView().getModel("viewModel").setProperty("/totalInspected", total);
+
+            var lotQty = parseFloat(oEntity.LotQuantity) || 0;
+
+            var oViewModel = this.getView().getModel("viewModel");
+            oViewModel.setProperty("/totalInspected", total);
+
+            // FRS: Allowed ONLY if Sum == LotQuantity
+            // Using a small epsilon for float comparison safety if needed, but integers usually fine.
+            var bBalanced = (Math.abs(total - lotQty) < 0.01);
+            oViewModel.setProperty("/isBalanced", bBalanced);
         },
 
         onSave: function () {
