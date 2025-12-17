@@ -32,15 +32,15 @@
                         <core:Title text="Stock Postings" class="glowText"/>
                         
                         <Label text="Unrestricted Stock" class="glowText"/>
-                        <Input value="{inspectionModel>UnrestrictedQty}" type="Number" placeholder="0" 
+                        <Input id="idUnrestrictedQty" value="{inspectionModel>UnrestrictedQty}" type="Number" placeholder="0" 
                                editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
                         
                         <Label text="Blocked Stock" class="glowText"/>
-                        <Input value="{inspectionModel>BlockedQty}" type="Number" placeholder="0" 
+                        <Input id="idBlockedQty" value="{inspectionModel>BlockedQty}" type="Number" placeholder="0" 
                                editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
                         
                         <Label text="Production Stock" class="glowText"/>
-                        <Input value="{inspectionModel>ProductionQty}" type="Number" placeholder="0" 
+                        <Input id="idProductionQty" value="{inspectionModel>ProductionQty}" type="Number" placeholder="0" 
                                editable="{viewModel>/editable}" liveChange=".onQtyChange" class="glassInput"/>
                         
                         <Label text="Total Inspected" class="glowText"/>
